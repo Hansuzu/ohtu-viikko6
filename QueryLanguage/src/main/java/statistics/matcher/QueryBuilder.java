@@ -9,6 +9,11 @@ public class QueryBuilder{
     matcher = new And();
   }
 
+  public QueryBuilder oneOf(Matcher... matchers) {
+    matcher = new And(new Or(matchers));
+    return this;
+  }
+
   public QueryBuilder playsIn(String team){
     matcher.add(new PlaysIn(team));
     return this;
@@ -25,6 +30,8 @@ public class QueryBuilder{
   }
 
   public Matcher build(){
+    Matcher matcher = this.matcher;
+    this.matcher = new And();
     return matcher;
   }
 }
